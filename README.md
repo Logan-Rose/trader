@@ -1,1 +1,1 @@
-"# trader" 
+An automated cryptocurrency trading bot
