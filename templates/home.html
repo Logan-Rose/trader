@@ -1,5 +1,14 @@
 <html>
     <body>
-        Hello world!
+        <h1>Hello</h1>
+        Momentum Indicators
+        <form>
+            <select name="momentumIndicators">
+                {% for indicator in momentumIndicators %}
+                <option value="{{indicator}}">{{indicator}}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="scan"/>
+        </form>
     </body>
 </html>
