@@ -1,3 +1,3 @@
 symbols = {
     "BTC":"BTC"
-}.
+}
