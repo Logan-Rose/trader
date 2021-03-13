@@ -13,7 +13,7 @@ SOCKET = "wss://stream.binance.com/ws/"
 HTTP_ROOT = 'https://api.binance.com/api/v1/'
 SYMBOL = "BTCUSDT"
 STREAM = "@kline_"
-PERIOD = "1h"
+PERIOD = "1m"
 URL =  SOCKET + SYMBOL + STREAM + PERIOD
 
 
@@ -31,9 +31,8 @@ def onMessage(ws, message):
     #pprint.pprint(jsonMessage)
     candle = jsonMessage['k']
     isClosed = candle['x']
-    close = candle['c']
-    if isClosed:
-        print(close)
+    opened = candle['o']
+    print("Close Price:", opened)
 
 def getHistoricalData(data, symbol, interval):
     currentUrl= HTTP_ROOT + data + '?symbol=' + symbol + '&interval=' + interval
@@ -119,5 +118,5 @@ def plot(frame):
     fig.show()
 
 
-# ws = websocket.WebSocketApp(URL,on_open=onOpen, on_close=onClose, on_error=onError, on_message=onMessage )
-# ws.run_forever()
+ws = websocket.WebSocketApp(URL,on_open=onOpen, on_close=onClose, on_error=onError, on_message=onMessage )
+ws.run_forever()

@@ -1,0 +1,50 @@
+h1{
+    text-align: right;
+    padding: 0px;
+}
+
+.content{
+    width: 50%;
+    display: flex;
+    border: solid 2px black;
+    margin-left: auto;
+    margin-right: auto;
+    padding:0px 15px;
+    padding-bottom: 15px;
+    flex-direction: column;
+
+}
+
+table {
+    border: 1px solid black;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 5px;
+    width: 100%;
+}
+
+th {
+    padding: 5px;
+    border-bottom: solid 1px;
+}
+
+td {
+    padding: 5px;
+}
+
+select{
+    width: 100%;
+}
+.submitButton{
+    width: 100%;
+    padding: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 16;
+    border: none;
+    background-color:forestgreen;
+    color: white;
+}
+.submitButton:hover{
+    background-color:rgb(55, 158, 55);
+
+}

@@ -1,0 +1,1 @@
+currenciesAvailable = ['BTC', 'ETH', 'USDT', 'XRP']
