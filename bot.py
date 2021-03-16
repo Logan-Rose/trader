@@ -1,4 +1,4 @@
-import websocket, json, pprint, binance, requests, pandas, datetime, talib
+import websocket, json, pprint, binance, requests, pandas, datetime, talib, numpy
 from matplotlib import pyplot as plt
 import plotly.graph_objects as go
 import API_CREDENTIALS as cred
@@ -23,7 +23,7 @@ class Bot:
         self.symbol = symbol1 + symbol2
         self.period = period
         self.socket = "wss://stream.binance.com/ws/" + self.symbol + "@kline_" + period
-        print(self.socket)
+        self.closes = self.getHistory('c')
         self.openFunc = partial(self.onOpen)
         self.closeFunc = partial(self.onClose)
         self.errorFunc = partial(self.onError)
@@ -45,29 +45,42 @@ class Bot:
         candle = jsonMessage['k']
         isClosed = candle['x']
         close = candle['c']
-        if isClosed:
-            print(close)
+        if(isClosed):
+            self.closes.insert(0, float(close))
+            #print(self.closes)
+            print("RSI:", self.getRSI(), ":", self.getRSISignal())
+
 
     def run(self):
         self.wsStream.run_forever()
 
     
     def getRSISignal(self):
-        rsi = getRSI()
+        rsi = self.getRSI()
         if rsi > 70:
-            return BEARISH
+            return "BEARISH"
         elif rsi < 30:
-            return BULLISH
+            return "BULLISH"
         else:
-            return HOLD
+            return "HOLD"
 
     def getRSI(self):
-        function = getattr(talib, "RSI")
-        frame = getHistoricalData("klines", self.symbol, self.period)
-        result = function(frame['c'], 14)
-        return result[-1]
-        
-blogan = Bot("btc", "usdt","1m")
+        return talib.RSI(numpy.array(self.closes))[-1]
+
+    def getHistory(self, column):
+        values = []
+        data = json.loads(requests.get(HTTP_ROOT + "klines" + '?symbol=' + self.symbol.upper() + '&interval=' + self.period).text)
+        df = pandas.DataFrame(data)
+        df.columns = ['open_time',
+            'o', 'h', 'l', 'c', 'v',
+            'close_time', 'qav', 'num_trades',
+            'taker_base_vol', 'taker_quote_vol', 'ignore']
+        for i in df[column][-20:-1].tolist():
+            values.append(float(i))
+        return values[::-1]
+
+
+blogan = Bot("btc", "usdt","1m", [])
 blogan.run()
 
 def getHistoricalData(data, symbol, interval):
