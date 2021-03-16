@@ -4,6 +4,7 @@ import plotly.graph_objects as go
 import API_CREDENTIALS as cred
 from binance.client import Client
 from binance.enums import *
+from functools import partial
 
 BULLISH = 1
 HOLD = 0
@@ -16,23 +17,58 @@ STREAM = "@kline_"
 PERIOD = "1m"
 URL =  SOCKET + SYMBOL + STREAM + PERIOD
 
+class Bot:
+    def __init__(self, symbol1, symbol2, period, indicators):
+        self.indicators = indicators
+        self.symbol = symbol1 + symbol2
+        self.period = period
+        self.socket = "wss://stream.binance.com/ws/" + self.symbol + "@kline_" + period
+        print(self.socket)
+        self.openFunc = partial(self.onOpen)
+        self.closeFunc = partial(self.onClose)
+        self.errorFunc = partial(self.onError)
+        self.messageFunc = partial(self.onMessage)
+        self.wsStream = websocket.WebSocketApp(self.socket,on_open=self.openFunc, on_close=self.closeFunc, on_error=self.errorFunc, on_message=self.messageFunc)
 
-def onOpen(ws):
-    print("opened")
+    def onOpen(self, ws):
+        print("opened")
+    
+    def onClose(self, ws):
+        print("Closed")
+    
+    def onError(self, ws, error):
+        print(error)
 
-def onClose(ws):
-    print("Closed")
+    def onMessage(self, ws, message):
+        jsonMessage = json.loads(message)
+        #pprint.pprint(jsonMessage)
+        candle = jsonMessage['k']
+        isClosed = candle['x']
+        close = candle['c']
+        if isClosed:
+            print(close)
 
-def onError(ws, error):
-    print(error)
+    def run(self):
+        self.wsStream.run_forever()
 
-def onMessage(ws, message):
-    jsonMessage = json.loads(message)
-    #pprint.pprint(jsonMessage)
-    candle = jsonMessage['k']
-    isClosed = candle['x']
-    opened = candle['o']
-    print("Close Price:", opened)
+    
+    def getRSISignal(self):
+        rsi = getRSI()
+        if rsi > 70:
+            return BEARISH
+        elif rsi < 30:
+            return BULLISH
+        else:
+            return HOLD
+
+    def getRSI(self):
+        function = getattr(talib, "RSI")
+        frame = getHistoricalData("klines", self.symbol, self.period)
+        result = function(frame['c'], 14)
+        return result[-1]
+        
+blogan = Bot("btc", "usdt","1m")
+blogan.run()
 
 def getHistoricalData(data, symbol, interval):
     currentUrl= HTTP_ROOT + data + '?symbol=' + symbol + '&interval=' + interval
@@ -46,13 +82,7 @@ def getHistoricalData(data, symbol, interval):
     df.index = [datetime.datetime.fromtimestamp(x/1000.0) for x in df.close_time]
     return df
 
-def getRSI():
-    function = getattr(talib, "RSI")
-    frame = getHistoricalData("klines", SYMBOL, PERIOD)
-    result = function(frame['c'], 14)
-    frame.to_csv("RSI")
-    print(result[-1])
-    return result[-1]
+
 
 def getADX():
     function = getattr(talib, "ADX")
@@ -65,15 +95,6 @@ def getADXR():
     frame = getHistoricalData("klines", SYMBOL, PERIOD)
     result = function(frame['h'], frame['l'], frame['c'], 14)
     return result[-1]
-
-def getRSISignal():
-    rsi = getRSI()
-    if rsi > 70:
-        return BEARISH
-    elif rsi < 30:
-        return BULLISH
-    else:
-        return HOLD
 
 def getDirectionalSignal():
     adx = getADX()
@@ -106,9 +127,6 @@ client = Client(cred.API_KEY, cred.SECRET_KEY)
 
 #order("BTCUSDT", 0.0002 , SIDE_BUY)
 
-
-
-
 def plot(frame):
     fig = go.Figure(data=[go.Candlestick(x=frame['close_time'],
                     open=frame['o'],
@@ -116,7 +134,3 @@ def plot(frame):
                     low=frame['l'],
                     close=frame['c'])])
     fig.show()
-
-
-ws = websocket.WebSocketApp(URL,on_open=onOpen, on_close=onClose, on_error=onError, on_message=onMessage )
-ws.run_forever()

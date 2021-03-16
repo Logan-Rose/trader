@@ -1,3 +1,7 @@
+*{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 h1{
     text-align: right;
     padding: 0px;
@@ -16,10 +20,9 @@ h1{
 }
 
 table {
-    border: 1px solid black;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 5px;
     width: 100%;
+    text-align: center;
 }
 
 th {
@@ -46,5 +49,17 @@ select{
 }
 .submitButton:hover{
     background-color:rgb(55, 158, 55);
+}
+.add{
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    background-color:forestgreen;
+    border: none;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
+}
+.add:hover{
+    background-color:rgb(55, 158, 55);
 }

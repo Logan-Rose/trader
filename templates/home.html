@@ -10,6 +10,7 @@
                     <tr>
                         <th>Coin One</th>
                         <th>Coin Two</th>
+                        <th>Time Period</th>
                         <th><input class="submitButton" type="submit" value="Launch AutoQuant"/></th>
                     </tr>
                     <tr>
@@ -27,18 +28,57 @@
                                 {% endfor %}
                             </select>
                         </td>
+                        <td>
+                            <select name="coinTwo">
+                                {% for period in timePeriods %}
+                                <option value="{{period}}">{{period}}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
                     </tr>                
                 </table>
             </form>
 
             <table>
-                {% for i in range(10) %}
+                <th>    
+                    <tr>
+                        <td>
+                            Indicator
+                        </td>
+                        <td>
+                            Buy
+                        </td>
+                        <td>
+                            Sell
+                        </td>
+                    </tr>
+                </th>
+                {% for i in range(momentumIndicators|length) %}
+                    <tr>
+                        <td>
+                            <select name="coinOne">
+                                {% for indicator in momentumIndicators %}
+                                <option value="{{indicator}}">{{indicator}}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+
+                        <td>
+                            <input type="number" id="buy_{{indicator}}" name="buy" placeholder="Buy Signal">
+                        </td>
+
+                        <td>
+                            <input type="number" id="sell_{{indicator}}" name="sell" placeholder="Sell Signal">
+                        </td>
+                    </tr>
+                {% endfor %}
                 <tr>
                     <td>
-                        {{i}}
+                        <button class="add">
+                            Add
+                        </button>
                     </td>
                 </tr>
-                {% endfor %}
             </table>
         </div>
 
