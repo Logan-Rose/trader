@@ -50,11 +50,9 @@ class Bot:
             #print(self.closes)
             print("RSI:", self.getRSI(), ":", self.getRSISignal())
 
-
     def run(self):
         self.wsStream.run_forever()
 
-    
     def getRSISignal(self):
         rsi = self.getRSI()
         if rsi > 70:

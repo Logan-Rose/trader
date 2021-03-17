@@ -3,9 +3,9 @@
         <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/home.css') }}">
       </head>
     <body>        
-        <div class="content">
+        <div >
             <h1>AutoQuant</h1>
-            <form>
+            <form class="content" action = "/" method="POST">
                 <table>
                     <tr>
                         <th>Coin One</th>
@@ -17,69 +17,69 @@
                         <td>
                             <select name="coinOne">
                                 {% for coin in currencies %}
-                                <option value="{{coin}}">{{coin}}</option>
+                                <option id="coinOne" value="{{coin}}">{{coin}}</option>
                                 {% endfor %}
                             </select>
                         </td>
                         <td>
                             <select name="coinTwo">
                                 {% for coin in currencies %}
-                                <option value="{{coin}}">{{coin}}</option>
+                                <option id="coinTwo" value="{{coin}}">{{coin}}</option>
                                 {% endfor %}
                             </select>
                         </td>
                         <td>
-                            <select name="coinTwo">
+                            <select name="period">
                                 {% for period in timePeriods %}
-                                <option value="{{period}}">{{period}}</option>
+                                <option id="period" value="{{period}}">{{period}}</option>
                                 {% endfor %}
                             </select>
                         </td>
                     </tr>                
                 </table>
+
+                <table>
+                    <th>    
+                        <tr>
+                            <td>
+                                Indicator
+                            </td>
+                            <td>
+                                Buy
+                            </td>
+                            <td>
+                                Sell
+                            </td>
+                        </tr>
+                    </th>
+                    {% for i in range(momentumIndicators|length) %}
+                        <tr>
+                            <td>
+                                <select name="{{i}}">
+                                    {% for indicator in momentumIndicators %}
+                                    <option value="{{indicator}}">{{indicator}}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+
+                            <td>
+                                <input type="number" id="buy_{{indicator}}" name="{{i}}_buy" value="0">
+                            </td>
+
+                            <td>
+                                <input type="number" id="sell_{{indicator}}" name="{{i}}_sell" value="0">
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>
+                            <button class="add">
+                                Add
+                            </button>
+                        </td>
+                    </tr>
+                </table>
             </form>
-
-            <table>
-                <th>    
-                    <tr>
-                        <td>
-                            Indicator
-                        </td>
-                        <td>
-                            Buy
-                        </td>
-                        <td>
-                            Sell
-                        </td>
-                    </tr>
-                </th>
-                {% for i in range(momentumIndicators|length) %}
-                    <tr>
-                        <td>
-                            <select name="coinOne">
-                                {% for indicator in momentumIndicators %}
-                                <option value="{{indicator}}">{{indicator}}</option>
-                                {% endfor %}
-                            </select>
-                        </td>
-
-                        <td>
-                            <input type="number" id="buy_{{indicator}}" name="buy" placeholder="Buy Signal">
-                        </td>
-
-                        <td>
-                            <input type="number" id="sell_{{indicator}}" name="sell" placeholder="Sell Signal">
-                        </td>
-                    </tr>
-                {% endfor %}
-                <tr>
-                    <td>
-                        <button class="add">
-                            Add
-                        </button>
-                    </td>
-                </tr>
-            </table>
         </div>
 
     </body>
