@@ -6,16 +6,20 @@ h1{
     text-align: right;
     padding: 0px;
 }
+h1:hover{
+    color: #d49b00;
+    cursor: pointer;
+}
 
 .content{
     width: 50%;
     display: flex;
-    border: solid 2px black;
     margin-left: auto;
     margin-right: auto;
     padding:0px 15px;
     padding-bottom: 15px;
     flex-direction: column;
+    background-color: #3d3d3d;
 
 }
 
@@ -44,22 +48,35 @@ select{
     font-weight: bold;
     font-size: 16;
     border: none;
-    background-color:forestgreen;
+    background-color:#d49b00;
     color: white;
 }
 .submitButton:hover{
-    background-color:rgb(55, 158, 55);
+    background-color:#dba000;
 }
 .add{
     height: 100%;
     width: 100%;
     padding: 10px;
-    background-color:forestgreen;
+    background-color:#d49b00;
     border: none;
     color: white;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
 }
 .add:hover{
-    background-color:rgb(55, 158, 55);
+    background-color:#dba000;
+}
+
+body{
+    padding:0px !important;
+    margin: 0px !important;
+}
+
+#particles-js{
+    width: 100%;
+    height:100%;
+    position: absolute;
+    z-index: -100;
+    background-color: #212121;
 }
