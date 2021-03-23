@@ -18,10 +18,11 @@ PERIOD = "1m"
 URL =  SOCKET + SYMBOL + STREAM + PERIOD
 
 class Bot:
-    def __init__(self, symbol1, symbol2, period, indicators):
+    def __init__(self, symbol1, symbol2, period, amount, indicators):
         self.indicators = indicators
         self.symbol = symbol1 + symbol2
-        self.period = period
+        print(self.symbol)
+        self.period = "1m"
         self.socket = "wss://stream.binance.com/ws/" + self.symbol + "@kline_" + period
         self.closes = self.getHistory('c')
         self.openFunc = partial(self.onOpen)
@@ -68,6 +69,7 @@ class Bot:
     def getHistory(self, column):
         values = []
         data = json.loads(requests.get(HTTP_ROOT + "klines" + '?symbol=' + self.symbol.upper() + '&interval=' + self.period).text)
+        print(data)
         df = pandas.DataFrame(data)
         df.columns = ['open_time',
             'o', 'h', 'l', 'c', 'v',
@@ -78,8 +80,8 @@ class Bot:
         return values[::-1]
 
 
-blogan = Bot("btc", "usdt","1m", [])
-blogan.run()
+# blogan = Bot("btc", "usdt","1m", 10, [])
+# blogan.run()
 
 def getHistoricalData(data, symbol, interval):
     currentUrl= HTTP_ROOT + data + '?symbol=' + symbol + '&interval=' + interval
@@ -117,8 +119,8 @@ def getDirectionalSignal():
     else:
         return HOLD
         
-print("RSI:", getRSISignal())
-print("DIRECTION:", getDirectionalSignal())
+# print("RSI:", getRSISignal())
+# print("DIRECTION:", getDirectionalSignal())
 
 def order(symbol, quantity, side):
     try:
@@ -132,7 +134,7 @@ def order(symbol, quantity, side):
         print(e)
         return False
     return True
-client = Client(cred.API_KEY, cred.SECRET_KEY)
+#client = Client(cred.API_KEY, cred.SECRET_KEY)
 
 #Places a buy order for 10 dollars
 

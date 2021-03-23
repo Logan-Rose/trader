@@ -21,6 +21,7 @@
                             <th>Coin One</th>
                             <th>Coin Two</th>
                             <th>Time Period</th>
+                            <th>Amount</th>
                             <th><input class="submitButton" type="submit" value="Launch AutoQuant"/></th>
                         </tr>
                         <tr>
@@ -40,10 +41,13 @@
                             </td>
                             <td>
                                 <select name="period">
-                                    {% for period in timePeriods %}
+                                    {% for period in periods %}
                                     <option id="period" value="{{period}}">{{period}}</option>
                                     {% endfor %}
                                 </select>
+                            </td>
+                            <td>
+                                <input type="number" id="amount" name="amount" value="0">
                             </td>
                         </tr>                
                     </table>
