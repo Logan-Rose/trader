@@ -5,12 +5,12 @@
 h1{
     text-align: right;
     padding: 0px;
+    padding-bottom: 50px;
 }
 h1:hover{
     color: #d49b00;
     cursor: pointer;
 }
-
 .content{
     width: 50%;
     display: flex;
@@ -56,7 +56,8 @@ select{
 }
 .add{
     height: 100%;
-    width: 100%;
+    align-self: center;
+    width: 25%;
     padding: 10px;
     background-color:#d49b00;
     border: none;

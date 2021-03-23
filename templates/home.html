@@ -4,84 +4,87 @@
       </head>
     <body>
         <div id="particles-js"></div>
+        <script type="text/javascript">
+            var currencies = '{{ currencies|tojson }}'
+            var momentumIndicators = '{{ indicators|tojson }}'
+            var periods = '{{ periods|tojson }}'
+        </script>
         <script src="static/particles.js"></script>
-        <div >
-            <h1>AutoQuant</h1>
-            <form class="content" action = "/" method="POST">
-                <table>
-                    <tr>
-                        <th>Coin One</th>
-                        <th>Coin Two</th>
-                        <th>Time Period</th>
-                        <th><input class="submitButton" type="submit" value="Launch AutoQuant"/></th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select name="coinOne">
-                                {% for coin in currencies %}
-                                <option id="coinOne" value="{{coin}}">{{coin}}</option>
-                                {% endfor %}
-                            </select>
-                        </td>
-                        <td>
-                            <select name="coinTwo">
-                                {% for coin in currencies %}
-                                <option id="coinTwo" value="{{coin}}">{{coin}}</option>
-                                {% endfor %}
-                            </select>
-                        </td>
-                        <td>
-                            <select name="period">
-                                {% for period in timePeriods %}
-                                <option id="period" value="{{period}}">{{period}}</option>
-                                {% endfor %}
-                            </select>
-                        </td>
-                    </tr>                
-                </table>
+        <h1>AutoQuant</h1>
+        <div class="containter">
 
-                <table>
-                    <th>    
+            <div class="content">
+                
+                <form action = "/" method="POST">
+                    <table>
                         <tr>
-                            <td>
-                                Indicator
-                            </td>
-                            <td>
-                                Buy
-                            </td>
-                            <td>
-                                Sell
-                            </td>
+                            <th>Coin One</th>
+                            <th>Coin Two</th>
+                            <th>Time Period</th>
+                            <th><input class="submitButton" type="submit" value="Launch AutoQuant"/></th>
                         </tr>
-                    </th>
-                    {% for i in range(momentumIndicators|length) %}
                         <tr>
                             <td>
-                                <select name="{{i}}">
-                                    {% for indicator in momentumIndicators %}
+                                <select name="coinOne">
+                                    {% for coin in currencies %}
+                                    <option id="coinOne" value="{{coin}}">{{coin}}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td>
+                                <select name="coinTwo">
+                                    {% for coin in currencies %}
+                                    <option id="coinTwo" value="{{coin}}">{{coin}}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td>
+                                <select name="period">
+                                    {% for period in timePeriods %}
+                                    <option id="period" value="{{period}}">{{period}}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>                
+                    </table>
+
+                    <table id="indicators">
+                        <th>    
+                            <tr>
+                                <td>
+                                    Indicator
+                                </td>
+                                <td>
+                                    Buy
+                                </td>
+                                <td>
+                                    Sell
+                                </td>
+                            </tr>
+                        </th>
+                        <tr>
+                            <td>
+                                <select name="0">
+                                    {% for indicator in indicators %}
                                     <option value="{{indicator}}">{{indicator}}</option>
                                     {% endfor %}
                                 </select>
                             </td>
 
                             <td>
-                                <input type="number" id="buy_{{indicator}}" name="{{i}}_buy" value="0">
+                                <input type="number" id="buy_{{indicator}}" name="0_buy" value="0">
                             </td>
 
                             <td>
-                                <input type="number" id="sell_{{indicator}}" name="{{i}}_sell" value="0">
+                                <input type="number" id="sell_{{indicator}}" name="0_sell" value="0">
                             </td>
                         </tr>
-                    {% endfor %}
-                    <tr>
-                        <td>
-                            <button class="add">
-                                Add
-                            </button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
+                    </table>
+                </form>
+                <button id="add" class="add" onclick="Hello()" >
+                    Add
+                </button>
+            </div>
         </div>
         <script src="{{ url_for('static',filename='/app.js') }}"></script> 
     </body>
