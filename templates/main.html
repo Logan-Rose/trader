@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/home.css') }}">
+      </head>
+    <body>
+        <div id="particles-js"></div>
+        <script src="static/particles.js"></script>
+        <script type="text/javascript">
+            var currencies = '{{ currencies|tojson }}'
+            var momentumIndicators = '{{ indicators|tojson }}'
+            var periods = '{{ periods|tojson }}'
+        </script>
+
+        <h1>AutoQuant</h1>
+         {% block content %} {% endblock%}
+        <script src="{{ url_for('static',filename='/app.js') }}"></script> 
+    </body>
+</html>

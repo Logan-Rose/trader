@@ -1,95 +1,84 @@
-<html>
-    <head>
-        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/home.css') }}">
-      </head>
-    <body>
-        <div id="particles-js"></div>
-        <script type="text/javascript">
-            var currencies = '{{ currencies|tojson }}'
-            var momentumIndicators = '{{ indicators|tojson }}'
-            var periods = '{{ periods|tojson }}'
-        </script>
-        <script src="static/particles.js"></script>
-        <h1>AutoQuant</h1>
-        <div class="containter">
+{% extends "main.html" %}
 
-            <div class="content">
-                
-                <form action = "/" method="POST">
-                    <table>
-                        <tr>
-                            <th>Coin One</th>
-                            <th>Coin Two</th>
-                            <th>Time Period</th>
-                            <th>Amount</th>
-                            <th><input class="submitButton" type="submit" value="Launch AutoQuant"/></th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <select name="coinOne">
-                                    {% for coin in currencies %}
-                                    <option id="coinOne" value="{{coin}}">{{coin}}</option>
-                                    {% endfor %}
-                                </select>
-                            </td>
-                            <td>
-                                <select name="coinTwo">
-                                    {% for coin in currencies %}
-                                    <option id="coinTwo" value="{{coin}}">{{coin}}</option>
-                                    {% endfor %}
-                                </select>
-                            </td>
-                            <td>
-                                <select name="period">
-                                    {% for period in periods %}
-                                    <option id="period" value="{{period}}">{{period}}</option>
-                                    {% endfor %}
-                                </select>
-                            </td>
-                            <td>
-                                <input type="number" id="amount" name="amount" value="0">
-                            </td>
-                        </tr>                
-                    </table>
+{% block content%}
+    <div class="containter">
 
-                    <table id="indicators">
-                        <th>    
-                            <tr>
-                                <td>
-                                    Indicator
-                                </td>
-                                <td>
-                                    Buy
-                                </td>
-                                <td>
-                                    Sell
-                                </td>
-                            </tr>
-                        </th>
+        <div class="content">
+            
+            <form action = "/run" method="POST">
+                <table>
+                    <tr>
+                        <th>Coin One</th>
+                        <th>Coin Two</th>
+                        <th>Time Period</th>
+                        <th>Amount</th>
+                        <th><input class="submitButton" type="submit" value="Launch AutoQuant"/></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select name="coinOne">
+                                {% for coin in currencies %}
+                                <option id="coinOne" value="{{coin}}">{{coin}}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <select name="coinTwo">
+                                {% for coin in currencies %}
+                                <option id="coinTwo" value="{{coin}}">{{coin}}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <select name="period">
+                                {% for period in periods %}
+                                <option id="period" value="{{period}}">{{period}}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" id="amount" name="amount" value="0">
+                        </td>
+                    </tr>                
+                </table>
+
+                <table id="indicators">
+                    <th>    
                         <tr>
                             <td>
-                                <select name="0">
-                                    {% for indicator in indicators %}
-                                    <option value="{{indicator}}">{{indicator}}</option>
-                                    {% endfor %}
-                                </select>
+                                Indicator
                             </td>
-
                             <td>
-                                <input type="number" id="buy_{{indicator}}" name="0_buy" value="0">
+                                Buy
                             </td>
-
                             <td>
-                                <input type="number" id="sell_{{indicator}}" name="0_sell" value="0">
+                                Sell
                             </td>
                         </tr>
-                    </table>
-                </form>
-                <button id="add" class="add" onclick="Hello()" >
-                    Add
-                </button>
-            </div>
+                    </th>
+                    <tr>
+                        <td>
+                            <select name="0">
+                                {% for indicator in indicators %}
+                                <option value="{{indicator}}">{{indicator}}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+
+                        <td>
+                            <input type="number" id="buy_{{indicator}}" name="0_buy" value="0">
+                        </td>
+
+                        <td>
+                            <input type="number" id="sell_{{indicator}}" name="0_sell" value="0">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <button id="add" class="add" onclick="Hello()" >
+                Add
+            </button>
         </div>
-        <script src="{{ url_for('static',filename='/app.js') }}"></script> 
-    </body>
-</html>
+    </div>
+
+{% endblock%}
