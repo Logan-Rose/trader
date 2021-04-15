@@ -23,7 +23,7 @@ class Bot:
         self.symbol = symbol1 + symbol2
         print(self.symbol)
         self.period = "1m"
-        self.socket = "wss://stream.binance.com/ws/" + self.symbol + "@kline_" + period
+        self.socket = "wss://stream.binance.com/ws/" + self.symbol.lower() + "@kline_" + self.period
         self.closes = self.getHistory('c')
         self.openFunc = partial(self.onOpen)
         self.closeFunc = partial(self.onClose)
@@ -69,7 +69,7 @@ class Bot:
     def getHistory(self, column):
         values = []
         data = json.loads(requests.get(HTTP_ROOT + "klines" + '?symbol=' + self.symbol.upper() + '&interval=' + self.period).text)
-        print(data)
+        # print(data)
         df = pandas.DataFrame(data)
         df.columns = ['open_time',
             'o', 'h', 'l', 'c', 'v',

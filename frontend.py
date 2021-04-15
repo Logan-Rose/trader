@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect
 import json, pprint
 from bot import Bot
+import atexit
 
 app = Flask(__name__)
 
@@ -26,18 +27,20 @@ def autoQuant():
     currencies = info['currenciesAvailable']
     periods = info['timePeriods']
 
-    data = {}
+    data = []
     print("++++")
-    data['coinOne'] = request.form.get("coinOne")
-    data['coinTwo'] = request.form.get("coinTwo")
-    data['period'] = request.form.get("period")
-    data['amount'] = request.form.get("amount")
+    #data.append(request.form.get("coinOne"))
+    #data.append(request.form.get("coinTwo"))
+    #data.append(request.form.get("period"))
+    #data.append(request.form.get("amount"))
     vals = list(request.form.values())[4:]
     for i in range(0, len(vals), 3):
-        currentInd = {}
-        currentInd['ind'] = vals[i]
-        currentInd['buy'] = vals[i+1]
-        currentInd['sell'] = vals[i+2]
-        data[str(i)] = currentInd
-    print()
-    return render_template("terminal.html", data=json.dumps(data), indicators=indicators, currencies=currencies, periods=periods)
+        currentInd = []
+        currentInd.append(vals[i])
+        currentInd.append(int(vals[i+1]))
+        currentInd.append(int(vals[i+2]))
+        data.append(currentInd)
+    print(data)
+    trading = Bot(request.form.get("coinOne"), request.form.get("coinTwo"), request.form.get("period"), request.form.get("amount"), vals)
+    trading.run()
+    return render_template("terminal.html", data=data, indicators=indicators, currencies=currencies, periods=periods)
