@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect
 import json, pprint
 from bot import Bot
 import atexit
-
+import threading
 app = Flask(__name__)
 
 
@@ -29,11 +29,10 @@ def autoQuant():
 
     data = []
     print("++++")
-    #data.append(request.form.get("coinOne"))
     #data.append(request.form.get("coinTwo"))
     #data.append(request.form.get("period"))
     #data.append(request.form.get("amount"))
-    vals = list(request.form.values())[4:]
+    vals = list(request.form.values())[3:]
     for i in range(0, len(vals), 3):
         currentInd = []
         currentInd.append(vals[i])
@@ -41,6 +40,15 @@ def autoQuant():
         currentInd.append(int(vals[i+2]))
         data.append(currentInd)
     print(data)
-    trading = Bot(request.form.get("coinOne"), request.form.get("coinTwo"), request.form.get("period"), request.form.get("amount"), vals)
-    trading.run()
+    trading = Bot(request.form.get("coin"), "USDT", request.form.get("period"), request.form.get("amount"), data)
+    botThread = myThread(trading)
+    botThread.start()
     return render_template("terminal.html", data=data, indicators=indicators, currencies=currencies, periods=periods)
+
+
+class myThread (threading.Thread):
+   def __init__(self, bot):
+      threading.Thread.__init__(self)
+      self.bot = bot
+   def run(self):
+       self.bot.run()

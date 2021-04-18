@@ -8,24 +8,16 @@
             <form action = "/run" method="POST">
                 <table>
                     <tr>
-                        <th>Coin One</th>
-                        <th>Coin Two</th>
+                        <th>Coin</th>
                         <th>Time Period</th>
                         <th>Amount</th>
                         <th><input class="submitButton" type="submit" value="Launch AutoQuant"/></th>
                     </tr>
                     <tr>
                         <td>
-                            <select name="coinOne">
+                            <select name="coin">
                                 {% for coin in currencies %}
-                                <option id="coinOne" value="{{coin}}">{{coin}}</option>
-                                {% endfor %}
-                            </select>
-                        </td>
-                        <td>
-                            <select name="coinTwo">
-                                {% for coin in currencies %}
-                                <option id="coinTwo" value="{{coin}}">{{coin}}</option>
+                                <option id="coin" value="{{coin}}">{{coin}}</option>
                                 {% endfor %}
                             </select>
                         </td>

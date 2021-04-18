@@ -4,8 +4,7 @@
     <div class="containter">
 
         <div class="content">
-            Coin One: {{data[0]}}<br>
-            Coin Two: {{data[1]}}<br>
+            Coin: {{data[0]}}<br>
             Period: {{data[2]}}<br>
             Amount: {{data[3]}}<br>
         {%for i in range(4, data|length)%}
@@ -18,4 +17,7 @@
         </div>
     </div>
 
+    <form action = "./" method="POST">
+        <input class="submitButton" type="submit" value="Close"/>
+    </form>
 {% endblock%}

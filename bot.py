@@ -22,6 +22,7 @@ class Bot:
         self.indicators = indicators
         self.symbol = symbol1 + symbol2
         print(self.symbol)
+        self.inPosition = False
         self.period = "1m"
         self.socket = "wss://stream.binance.com/ws/" + self.symbol.lower() + "@kline_" + self.period
         self.closes = self.getHistory('c')
@@ -48,9 +49,13 @@ class Bot:
         close = candle['c']
         if(isClosed):
             self.closes.insert(0, float(close))
-            #print(self.closes)
+            if self.getSignal() == 1 and self.inPosition == False: 
+                print("guy")
+            elif self.getSignal() == -1 and self.inPosition == True:
+                print("sell")
             print("RSI:", self.getRSI(), ":", self.getRSISignal())
 
+    def getSignal(self):
     def run(self):
         self.wsStream.run_forever()
 
@@ -80,7 +85,7 @@ class Bot:
         return values[::-1]
 
 
-# blogan = Bot("btc", "usdt","1m", 10, [])
+# blogan = Bot("btc", "usdt","1m", 10, [['RSI', 0, 0]])
 # blogan.run()
 
 def getHistoricalData(data, symbol, interval):
