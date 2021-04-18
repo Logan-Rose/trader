@@ -7,20 +7,19 @@ function Hello(){
   let timePeriods = JSON.parse(periods)
   let availableCurrencies = JSON.parse(currencies)
   let indicators = JSON.parse(momentumIndicators)
-
+  console.log(indicators.values())
   var indicatorElement = document.getElementById("indicators");
   var newRow = indicatorElement.insertRow(-1)
-  index = indicatorElement.rows.length -3
+  index = indicatorElement.rows.length
 
 
   let options = ""
 
   for(var ind in indicators){
-    options = options + '<option value="' + ind + '">' + ind + '</option>'
+    console.log(indicators[ind])
+    options = options + '<option value="' + indicators[ind] + '">' + indicators[ind] + '</option>'
   }
   let attempt = 
-    '<tr> <td> <select name="' + index + '"> ' + options + '</select></td>' + 
-    '<td><input type="number" id="buy_' + index + '" value="0" name="buy_' + index + '"></td>' +
-    '<td><input type="number" id="sell_' + index + '" value="0" name="sell_' + index + '"></td> </tr>'
+    '<tr> <td> <select name="' + index + '"> ' + options + '</select></td></tr>'
   newRow.innerHTML = attempt;
 }

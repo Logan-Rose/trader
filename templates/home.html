@@ -33,20 +33,15 @@
                         </td>
                     </tr>                
                 </table>
-
+                <table>
+                    <tr>
+                        <td>Signals needed to buy:  <input type="number" id="amount" name="amount" value="0"></td>
+                        <td>Signals needed to sell: <input type="number" id="amount" name="amount" value="0"></td>
+                    </tr>
+                </table>
                 <table id="indicators">
                     <th>    
-                        <tr>
-                            <td>
-                                Indicator
-                            </td>
-                            <td>
-                                Buy
-                            </td>
-                            <td>
-                                Sell
-                            </td>
-                        </tr>
+                        Indicator
                     </th>
                     <tr>
                         <td>
@@ -55,14 +50,6 @@
                                 <option value="{{indicator}}">{{indicator}}</option>
                                 {% endfor %}
                             </select>
-                        </td>
-
-                        <td>
-                            <input type="number" id="buy_{{indicator}}" name="0_buy" value="0">
-                        </td>
-
-                        <td>
-                            <input type="number" id="sell_{{indicator}}" name="0_sell" value="0">
                         </td>
                     </tr>
                 </table>

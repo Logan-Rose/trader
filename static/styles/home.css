@@ -27,15 +27,18 @@ table {
     padding: 5px;
     width: 100%;
     text-align: center;
+    border: solid 1px white;
 }
 
 th {
     padding: 5px;
     border-bottom: solid 1px;
+    border: solid 1px white;
 }
 
 td {
     padding: 5px;
+    border: solid 1px white;
 }
 
 select{

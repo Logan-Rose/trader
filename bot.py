@@ -49,13 +49,31 @@ class Bot:
         close = candle['c']
         if(isClosed):
             self.closes.insert(0, float(close))
-            if self.getSignal() == 1 and self.inPosition == False: 
-                print("guy")
-            elif self.getSignal() == -1 and self.inPosition == True:
-                print("sell")
+            # if self.getSignal() == 1 and self.inPosition == False: 
+            #    print("guy")
+            # elif self.getSignal() == -1 and self.inPosition == True:
+            #     print("sell")
+            self.getSignal()
             print("RSI:", self.getRSI(), ":", self.getRSISignal())
 
     def getSignal(self):
+        for i in self.indicators:
+            if i in ["ADX" , "ADXR", "CCI", "DX", "MFI", "MINUS_DI", "PLUS_DI", "STOCH", "STOCHF", "ULTOSC", "WILLR"]:
+                function = getattr(talib, i)
+                frame = getHistoricalData("klines", SYMBOL, PERIOD)
+                result = function(frame['h'], frame['l'], frame['c'], 14)
+            elif i in ["APO", "CMO", "MACD", "MACDEXT", "MACDFIX", "MOM", "PPO", "ROC", "ROCP", "ROCR", "ROCR100", "RSI", "STOCHRSI"]:
+                function = getattr(talib, i)
+                frame = getHistoricalData("klines", SYMBOL, PERIOD)
+                result = function(frame['c'])
+            elif i =="BOP":
+                function = getattr(talib, i)
+                frame = getHistoricalData("klines", SYMBOL, PERIOD)
+                result = function(frame['o'], frame['h'], frame['l'], frame['c'], 14)
+            print(i + ":" + result)
+        return 0
+
+
     def run(self):
         self.wsStream.run_forever()
 
@@ -85,8 +103,8 @@ class Bot:
         return values[::-1]
 
 
-# blogan = Bot("btc", "usdt","1m", 10, [['RSI', 0, 0]])
-# blogan.run()
+blogan = Bot("btc", "usdt","1m", 10, ['RSI', 'ADX'])
+blogan.run()
 
 def getHistoricalData(data, symbol, interval):
     currentUrl= HTTP_ROOT + data + '?symbol=' + symbol + '&interval=' + interval
@@ -139,6 +157,7 @@ def order(symbol, quantity, side):
         print(e)
         return False
     return True
+
 #client = Client(cred.API_KEY, cred.SECRET_KEY)
 
 #Places a buy order for 10 dollars
